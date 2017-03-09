@@ -64,7 +64,6 @@ struct entry {
                              be generated. */
 };
 
-int table_miss;
 struct entry *ent;
 entry entry_table[MAX_SIZE] = {0};
 
@@ -88,8 +87,6 @@ void prefetch_access(AccessStat stat)
   ent = get_entry(stat.pc);
 
   if (!has_addr(stat.pc)) { /* Table miss */
-    table_miss = 1;
-
     ent -> PC = stat.pc;
     ent -> last_address = stat.mem_addr;
     ent -> delta = 0;
