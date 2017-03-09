@@ -1,6 +1,12 @@
 /*
  * Reference Prediction Tables
  *
+ * Based on:
+ * Effective hardware-based data prefetching for high-performance
+ * processors
+ * (Tien-Fu Chen and Jean-Loup Baer 609-623)
+ * https://www.cs.utah.edu/~rajeev/cs7810/papers/chen95.pdf
+ *
  * +----+--------------+-------+-------+
  * | PC | Last Address | Delta | State |
  * +----+--------------+-------+-------+
