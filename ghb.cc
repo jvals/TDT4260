@@ -21,7 +21,6 @@ typedef struct {
 
 typedef struct {
   Addr PC = 0;
-  Addr next = 0;
   Addr prev = 0;
 } ghb_entry;
 
@@ -47,7 +46,6 @@ void prefetch_access(AccessStat stat) {
   head++;
   ghb_ent = &ghb[head % GHB_SIZE];
   ghb_ent->PC = stat.mem_addr;
-  ghb_ent->next = 0;
   ghb_ent->prev = 0;
 
   idx_ent = &idx[stat.pc % IDX_SIZE];
@@ -57,7 +55,6 @@ void prefetch_access(AccessStat stat) {
     idx_ent->ghb_pointer = head % GHB_SIZE;
   } else {
     ghb_ent->prev = idx_ent->ghb_pointer;
-    ghb[idx_ent->ghb_pointer].next = head % GHB_SIZE;
     idx_ent->ghb_pointer = head % GHB_SIZE;
   }
 
