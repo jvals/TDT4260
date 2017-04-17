@@ -60,12 +60,15 @@ void prefetch_access(AccessStat stat) {
 
   Addr prefetch_addr = stat.mem_addr;
 
-  for (int i = 0; i < DELTA_SIZE; i++) {
+  int global_depth = 0;
+
+  for (int i = 0; i < DELTA_SIZE && ghb_ent->prev != 0; i++) {
     deltas[i] = ghb_ent->PC - ghb[ghb_ent->prev].PC;
     ghb_ent = &ghb[ghb_ent->prev];
+    global_depth++;
   }
 
-  for (int i = 0; i < DELTA_SIZE - 2; i++) {
+  for (int i = 0; i < global_depth - 2; i++) {
     if (deltas[i + 1] == deltas[0] && deltas[i + 2] == deltas[1]) {
       for (int j = 0; j < LOOKAHEAD; j++) {
         prefetch_addr += deltas[i - (j % (i + 1)) + 2];
