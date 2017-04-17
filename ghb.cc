@@ -52,11 +52,11 @@ void prefetch_access(AccessStat stat) {
 
   if (idx_ent->PC != stat.pc) {
     idx_ent->PC = stat.pc;
-    idx_ent->ghb_pointer = head % GHB_SIZE;
   } else {
     ghb_ent->prev = idx_ent->ghb_pointer;
-    idx_ent->ghb_pointer = head % GHB_SIZE;
   }
+
+  idx_ent->ghb_pointer = head % GHB_SIZE;
 
   Addr prefetch_addr = stat.mem_addr;
 
