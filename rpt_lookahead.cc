@@ -121,23 +121,15 @@ void prefetch_access(AccessStat stat)
       }
     }
 
-    int original_delta = 0;
     if (original_state != STEADY || correct(stat.mem_addr)) {
-      original_delta = ent->delta;
       ent->delta = stat.mem_addr - ent->last_address;
       ent->last_address = stat.mem_addr;
     }
-    Addr prefetch_addr = stat.mem_addr + ent->delta * ent->times;
-    if (original_delta == ent->delta) {
+
+    for (int i = 1; i <= ent->times; i++) {
+      Addr prefetch_addr = stat.mem_addr + ent->delta * i;
       if (can_prefetch(prefetch_addr)) {
-        issue_prefetch(prefetch_addr);
-      }
-    } else {
-      for (int i = 1; i <= ent->times; i++) {
-        prefetch_addr = stat.mem_addr + ent->delta * i;
-        if (can_prefetch(prefetch_addr)) {
-          issue_prefetch(prefetch_addr);
-        }
+	issue_prefetch(prefetch_addr);
       }
     }
   }
