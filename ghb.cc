@@ -16,7 +16,7 @@
 /* DATA STRUCTURES AND GLOBALS */
 typedef struct {
   Addr PC = 0;
-  Addr current = 0;
+  Addr ghb_pointer = 0;
 } index_table_entry;
 
 typedef struct {
@@ -54,11 +54,11 @@ void prefetch_access(AccessStat stat) {
 
   if (idx_ent->PC != stat.pc) {
     idx_ent->PC = stat.pc;
-    idx_ent->current = head % GHB_SIZE;
+    idx_ent->ghb_pointer = head % GHB_SIZE;
   } else {
-    ghb_ent->prev = idx_ent->current;
-    ghb[idx_ent->current].next = head % GHB_SIZE;
-    idx_ent->current = head % GHB_SIZE;
+    ghb_ent->prev = idx_ent->ghb_pointer;
+    ghb[idx_ent->ghb_pointer].next = head % GHB_SIZE;
+    idx_ent->ghb_pointer = head % GHB_SIZE;
   }
 
   Addr prefetch_addr = stat.mem_addr;
